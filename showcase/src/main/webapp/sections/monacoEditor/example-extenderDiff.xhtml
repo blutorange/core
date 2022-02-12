@@ -5,7 +5,8 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:of="http://omnifaces.org/functions"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:pe="http://primefaces.org/ui/extensions">
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:pem="http://primefaces.org/ui/extensions-monaco">
 
 <p:remoteCommand id="handleMonacoExtenderError" name="handleMonacoExtenderError"
   process="@this,monacoEditorWrapper" partialSubmit="true"
@@ -156,7 +157,7 @@
   <p:tabView id="extenderTabs" style="flex:1">
       <p:tab id="extenderCode" title="Extender">
           <h:panelGroup id="monacoExtenderWrapper" layout="block" styleClass="monacoExtenderBox">
-              <pe:monacoEditorFramed id="monacoExtender" widgetVar="monacoExtender"
+              <pem:monacoEditorFramed id="monacoExtender" widgetVar="monacoExtender"
                   value="#{monacoEditorController.valueExtender}" scheme="file"
                   extender="#{resource['js/monacoExtender.js']}"
                   iframeUrlParams="{extender: 'monaco', language: 'javascript', tsCheck: true, moreDeclarationUrls: ['#{of:escapeJS(resource['primefaces-extensions:monacoeditor/primefaces-monaco-global.d.ts'])}', '#{of:escapeJS(resource['primefaces-extensions:monacoeditor/primefaces-monaco-module.d.ts'])}'], moreDeclarationNames: ['file:///src/primefaces-monaco-global.d.ts', 'file:///src/primefaces-monaco-module.d.ts']}"
@@ -167,7 +168,7 @@
       </p:tab>
       <p:tab id="customCss" title="Custom CSS">
           <h:panelGroup id="monacoCssWrapper" layout="block" styleClass="monacoExtenderBox">
-              <pe:monacoEditorFramed id="monacoCss" widgetVar="monacoCss"
+              <pem:monacoEditorFramed id="monacoCss" widgetVar="monacoCss"
                   value="#{monacoEditorController.valueCss}" scheme="file"
                   extender="#{resource['js/monacoExtender.js']}"
                   iframeUrlParams="{extender: 'default'}"
@@ -182,7 +183,7 @@
   <!-- window.createShowcaseExtender wraps the createExtender function -->
   <!-- defined in the editor above to catch and display errors. -->
   <h:panelGroup id="monacoEditorWrapper" layout="block" style="flex:1" styleClass="monacoEditorBox">
-      <pe:monacoDiffEditor id="monacoEditor" widgetVar="monacoEditor"
+      <pem:monacoDiffEditor id="monacoEditor" widgetVar="monacoEditor"
           rendered="#{empty monacoEditorController.extenderError}"
           value="#{monacoEditorController.valueDiff}"
           extender="window.createShowcaseExtender()"

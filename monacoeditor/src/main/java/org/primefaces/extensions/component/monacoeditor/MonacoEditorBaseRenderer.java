@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 
+import org.primefaces.extensions.model.monacoeditor.EditorOptions;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
 
@@ -40,7 +41,7 @@ import org.primefaces.util.WidgetBuilder;
  * @since 10.0.0
  */
 abstract class MonacoEditorBaseRenderer<TEditor extends MonacoEditorBase>
-                                       extends MonacoEditorCommonRenderer<TEditor, org.primefaces.extensions.model.monacoeditor.EditorOptions> {
+                                       extends MonacoEditorCommonRenderer<TEditor, EditorOptions> {
     private static final String INPUT_SUFFIX = "_input";
 
     private static final List<String> PASSTHROUGH_ATTRS = Arrays.asList(//

@@ -12,6 +12,9 @@
             with the features better described <a href="https://code.visualstudio.com/docs/editor/editingevolved" target="_blank"
                                                   rel="noopener noreferrer">here</a>.
             <br/><br/>
+            To use the editor, you need to include the <code>xmlns:pem="http://primefaces.org/ui/extensions-monaco"</code>
+            namespace in your XHTML page.
+            <br/><br/>
             The editor provides a rich coding experience with IntelliSense and validation for a few select languages, namely
             JavaScript/TypeScript, CSS / LESS /SCSS, and JSON; including but not limited to syntax highlighting, code completion and
             refactoring. Furthermore, basic support such as syntax highlighting is available for many mor languages, see the list below.
@@ -29,17 +32,17 @@
                                                                                      target="_blank" rel="noopener noreferrer">
             client-side API.</a> This JSF component comes in four varieties:
             <ul>
-                <li>The <code>pe:monacoEditor</code> renders the editor inline in the page where you include it. This is usually more
+                <li>The <code>pem:monacoEditor</code> renders the editor inline in the page where you include it. This is usually more
                     efficient and the preferred way when you do not need different editors with a different global configuration.
                 </li>
-                <li>The <code>pe:monacoEditorFramed</code> renders the editor in an iframe for improved encapsulation. Part of the
+                <li>The <code>pem:monacoEditorFramed</code> renders the editor in an iframe for improved encapsulation. Part of the
                     Monaco Editor configuration is window global, such as the loaded TypeScript declaration files for improved JavaScript
                     IntelliSense. If you wish to use multiple editors with a completely different setup, consider using the framed variant.
                 </li>
-                <li>The <code>pe:monacoDiffEditor</code> renders a diff editor for comparing two files inline in the page where you include it.
+                <li>The <code>pem:monacoDiffEditor</code> renders a diff editor for comparing two files inline in the page where you include it.
                     This is usually more efficient and the preferred way when you do not need different editors with a different global configuration.
                 </li>
-                <li>The <code>pe:monacoDiffEditorFramed</code> renders a diff editor for comparing two files in an iframe for improved encapsulation.
+                <li>The <code>pem:monacoDiffEditorFramed</code> renders a diff editor for comparing two files in an iframe for improved encapsulation.
                     Part of the Monaco Editor configuration is window global, such as the loaded TypeScript declaration files for improved JavaScript
                     IntelliSense. If you wish to use multiple editors with a completely different setup, consider using the framed variant.
                 </li>

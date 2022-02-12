@@ -30,6 +30,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.component.api.PrimeClientBehaviorHolder;
 import org.primefaces.component.api.Widget;
+import org.primefaces.extensions.model.monacoeditor.EditorOptions;
+import org.primefaces.extensions.model.monacoeditor.EditorStandaloneTheme;
 import org.primefaces.util.LocaleUtils;
 
 /**
@@ -76,8 +78,8 @@ public abstract class MonacoEditorCommon<TEditorOpts> extends HtmlInputTextarea
     }
 
     @SuppressWarnings("unchecked")
-    public final Map<String, org.primefaces.extensions.model.monacoeditor.EditorStandaloneTheme> getCustomThemes() {
-        return (Map<String, org.primefaces.extensions.model.monacoeditor.EditorStandaloneTheme>) getStateHelper().eval(
+    public final Map<String, EditorStandaloneTheme> getCustomThemes() {
+        return (Map<String, EditorStandaloneTheme>) getStateHelper().eval(
                     BaseEditorPropertyKeys.customThemes, null);
     }
 
@@ -145,7 +147,7 @@ public abstract class MonacoEditorCommon<TEditorOpts> extends HtmlInputTextarea
     }
 
     public final void setCustomThemes(
-                final Map<String, org.primefaces.extensions.model.monacoeditor.EditorStandaloneTheme> customThemes) {
+                final Map<String, EditorStandaloneTheme> customThemes) {
         getStateHelper().put(BaseEditorPropertyKeys.customThemes, customThemes);
     }
 
@@ -153,7 +155,7 @@ public abstract class MonacoEditorCommon<TEditorOpts> extends HtmlInputTextarea
         getStateHelper().put(BaseEditorPropertyKeys.directory, directory);
     }
 
-    public final void setEditorOptions(final org.primefaces.extensions.model.monacoeditor.EditorOptions editorOptions) {
+    public final void setEditorOptions(final EditorOptions editorOptions) {
         getStateHelper().put(BaseEditorPropertyKeys.editorOptions, editorOptions);
     }
 

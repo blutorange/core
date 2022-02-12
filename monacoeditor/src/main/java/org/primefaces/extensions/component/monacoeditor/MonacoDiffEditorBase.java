@@ -28,6 +28,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.BehaviorEvent;
 
+import org.primefaces.extensions.model.monacoeditor.DiffEditorOptions;
+import org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel;
 import org.primefaces.util.MapBuilder;
 import org.primefaces.util.MessageFactory;
 
@@ -38,7 +40,7 @@ import org.primefaces.util.MessageFactory;
  */
 @SuppressWarnings("java:S110")
 public abstract class MonacoDiffEditorBase
-                                           extends MonacoEditorCommon<org.primefaces.extensions.model.monacoeditor.DiffEditorOptions> {
+                                           extends MonacoEditorCommon<DiffEditorOptions> {
     static final String DEFAULT_EVENT = "change";
 
     static final Map<String, Class<? extends BehaviorEvent>> BASE_BEHAVIOR_EVENT_MAPPING = MapBuilder.<String, Class<? extends BehaviorEvent>> builder() //
@@ -76,7 +78,7 @@ public abstract class MonacoDiffEditorBase
     static final String DEFAULT_ORIGINAL_LANGUAGE = null;
 
     protected MonacoDiffEditorBase(final String rendererType) {
-        super(rendererType, org.primefaces.extensions.model.monacoeditor.DiffEditorOptions.class);
+        super(rendererType, DiffEditorOptions.class);
     }
 
     public final boolean isOriginalDisabled() {
@@ -233,8 +235,8 @@ public abstract class MonacoDiffEditorBase
 
     @Override
     protected void validateValue(final FacesContext context, final Object newValue) {
-        final org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel model;
-        model = (org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) newValue;
+        final MonacoDiffEditorModel model;
+        model = (MonacoDiffEditorModel) newValue;
         // If our value is valid, enforce the required property if present for the modified editor
         if (isValid() && isRequired() && (model == null || isEmpty(model.getModifiedValue()))) {
             final String requiredMessageStr = getRequiredMessage();

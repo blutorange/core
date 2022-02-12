@@ -34,6 +34,8 @@ import javax.faces.context.ResponseWriter;
 
 import org.primefaces.config.PrimeConfiguration;
 import org.primefaces.context.PrimeApplicationContext;
+import org.primefaces.extensions.model.monacoeditor.DiffEditorOptions;
+import org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel;
 import org.primefaces.util.WidgetBuilder;
 
 /**
@@ -43,7 +45,7 @@ import org.primefaces.util.WidgetBuilder;
  */
 abstract class MonacoDiffEditorBaseRenderer<TEditor extends MonacoDiffEditorBase>
                                            extends
-                                           MonacoEditorCommonRenderer<TEditor, org.primefaces.extensions.model.monacoeditor.DiffEditorOptions> {
+                                           MonacoEditorCommonRenderer<TEditor, DiffEditorOptions> {
     private static final String INPUT_SUFFIX = "_input";
     private static final String INPUT_ORIGINAL_SUFFIX = "_input_original";
 
@@ -103,8 +105,8 @@ abstract class MonacoDiffEditorBaseRenderer<TEditor extends MonacoDiffEditorBase
         writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
         renderPassThruAttributes(context, monacoEditor, PASSTHROUGH_ATTRS);
 
-        final org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel valueToRender;
-        valueToRender = (org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) getValueToRender(
+        final MonacoDiffEditorModel valueToRender;
+        valueToRender = (MonacoDiffEditorModel) getValueToRender(
                     context, monacoEditor);
 
         writer.startElement("textarea", null);
@@ -199,30 +201,30 @@ abstract class MonacoDiffEditorBaseRenderer<TEditor extends MonacoDiffEditorBase
         }
         else {
             final Object value = component.getValue();
-            return value instanceof org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel
-                        ? (org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) value
-                        : org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel.empty();
+            return value instanceof MonacoDiffEditorModel
+                        ? (MonacoDiffEditorModel) value
+                        : MonacoDiffEditorModel.empty();
         }
     }
 
-    public final static org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel convertedSubmittedValue(
+    public final static MonacoDiffEditorModel convertedSubmittedValue(
                 final FacesContext context, final UIComponent component, final Object submittedValue) {
         if (submittedValue == null) {
-            return org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel.empty();
+            return MonacoDiffEditorModel.empty();
         }
-        if (submittedValue instanceof org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) {
-            return (org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) submittedValue;
+        if (submittedValue instanceof MonacoDiffEditorModel) {
+            return (MonacoDiffEditorModel) submittedValue;
         }
         final MonacoDiffEditorBase editor = (MonacoDiffEditorBase) component;
-        final org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel currentModel = editor.getValue() != null
+        final MonacoDiffEditorModel currentModel = editor.getValue() != null
                     //
-                    ? (org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel) editor.getValue()
+                    ? (MonacoDiffEditorModel) editor.getValue()
                     //
-                    : org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel.empty();
+                    : MonacoDiffEditorModel.empty();
         @SuppressWarnings("unchecked")
         final Entry<String, String> value = (Map.Entry<String, String>) submittedValue;
         final String originalValue = value.getKey() != null ? value.getKey() : currentModel.getOriginalValue();
         final String modifiedValue = value.getValue() != null ? value.getValue() : currentModel.getModifiedValue();
-        return new org.primefaces.extensions.model.monacoeditor.MonacoDiffEditorModel(originalValue, modifiedValue);
+        return new MonacoDiffEditorModel(originalValue, modifiedValue);
     }
 }

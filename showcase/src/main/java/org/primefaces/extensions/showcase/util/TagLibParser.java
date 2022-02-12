@@ -21,15 +21,23 @@
  */
 package org.primefaces.extensions.showcase.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.xml.*;
-import javax.xml.parsers.*;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.primefaces.extensions.showcase.model.system.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import org.primefaces.extensions.showcase.model.system.DocuAttribute;
+import org.primefaces.extensions.showcase.model.system.DocuEvent;
+import org.primefaces.extensions.showcase.model.system.DocuTag;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Parser of primefaces-extensions.taglib.xml.
@@ -42,6 +50,33 @@ public class TagLibParser {
     private static final String CLIENT_BEHAVIOR_EVENTS = "Client behavior events:";
 
     public static Map<String, DocuTag> getTags() throws ParserConfigurationException, IOException, SAXException {
+        Map<String, DocuTag> tags = new HashMap<>();
+        processTaglib("META-INF/primefaces-extensions.taglib.xml", tags);
+        processTaglib("META-INF/resources-monacoeditor.taglib.xml", tags);
+        return tags;
+    }
+
+    protected static void addEvents(final String description, final DocuTag docuTag) {
+        int clientBehaviorEventsIndex = description.indexOf(CLIENT_BEHAVIOR_EVENTS);
+
+        if (clientBehaviorEventsIndex > -1) {
+            String extractedEvents = description.substring(clientBehaviorEventsIndex + CLIENT_BEHAVIOR_EVENTS.length());
+
+            for (String extractedEvent : extractedEvents.split(",")) {
+                DocuEvent event = new DocuEvent();
+                event.setName(
+                            extractedEvent.split("-")[0].trim());
+                event.setDescription(
+                            extractedEvent.split("-")[1].trim().split("\\(")[0]);
+                event.setEventClass(
+                            extractedEvent.split("-")[1].trim().split("\\(")[1].replace(").", "").replace(")", "").trim());
+
+                docuTag.addEvent(event);
+            }
+        }
+    }
+
+    private static void processTaglib(String taglib, Map<String, DocuTag> tags) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         docBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
         docBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
@@ -56,7 +91,7 @@ public class TagLibParser {
             classloader = TagLibParser.class.getClassLoader();
         }
 
-        InputStream is = classloader.getResourceAsStream("META-INF/primefaces-extensions.taglib.xml");
+        InputStream is = classloader.getResourceAsStream(taglib);
         Document doc = docBuilder.parse(is);
         try {
             is.close();
@@ -65,7 +100,6 @@ public class TagLibParser {
             // ignore
         }
 
-        Map<String, DocuTag> tags = new HashMap<>();
         NodeList nodes = doc.getElementsByTagName("tag");
 
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -111,28 +145,6 @@ public class TagLibParser {
                         docuTag.addAttribute(docuAttribute);
                     }
                 }
-            }
-        }
-
-        return tags;
-    }
-
-    protected static void addEvents(final String description, final DocuTag docuTag) {
-        int clientBehaviorEventsIndex = description.indexOf(CLIENT_BEHAVIOR_EVENTS);
-
-        if (clientBehaviorEventsIndex > -1) {
-            String extractedEvents = description.substring(clientBehaviorEventsIndex + CLIENT_BEHAVIOR_EVENTS.length());
-
-            for (String extractedEvent : extractedEvents.split(",")) {
-                DocuEvent event = new DocuEvent();
-                event.setName(
-                            extractedEvent.split("-")[0].trim());
-                event.setDescription(
-                            extractedEvent.split("-")[1].trim().split("\\(")[0]);
-                event.setEventClass(
-                            extractedEvent.split("-")[1].trim().split("\\(")[1].replace(").", "").replace(")", "").trim());
-
-                docuTag.addEvent(event);
             }
         }
     }
